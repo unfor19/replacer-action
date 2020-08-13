@@ -1,0 +1,41 @@
+---
+name=dst_file_path
+short=df
+description=Full path to destination file
+---
+name=src_file_path
+short=sf
+description=Full path to source file that will be injected
+default=replacer_null
+---
+name=src_text
+short=st
+description=Text of the source to inject
+default=replacer_null
+---
+name=start_value
+short=sv
+description=From where to start
+default="<!-- replacer_start -->"
+---
+name=end_value
+short=ev
+description=Where to stop
+default="<!-- replacer_end -->"
+---
+name=create_backup
+short=cb
+description=Create a backup file
+default=true
+options=true false
+---
+name=backup_file_path
+short=bp
+description=Full path to backup file
+default=./
+---
+name=bargs
+description=bash main.sh -sf incoming.txt -df README.md
+default=irrelevant
+---
+---
