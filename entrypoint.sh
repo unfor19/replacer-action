@@ -2,7 +2,7 @@
 echo "PWD: ${PWD}"
 echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
 
-source "${PWD}$(dirname ${BASH_SOURCE[0]})"/scripts/bargs.sh "$@"
+source "$(dirname ${BASH_SOURCE[0]})"/scripts/bargs.sh "$@"
 
 ### Utils
 error_msg(){
