@@ -3,7 +3,10 @@ echo "PWD: ${PWD}"
 echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
 ROOTDIR=/github/workspace
 
-ls -lah "$ROOTDIR"
+echo "$SRC_FILE_PATH"
+echo "$DST_FILE_PATH"
+echo "$START_VALUE"
+echo "$END_VALUE"
 
 source "/code/scripts/bargs.sh" "$@"
 
@@ -94,8 +97,10 @@ commit_push_dst_file(){
 
 
 ### Main
-check_src_file && \
-check_dst_file && \
-create_backup && \
-update_dst_file && \
+echo "Start"
+check_src_file
+check_dst_file
+create_backup
+update_dst_file
 commit_push_dst_file
+echo "End"
