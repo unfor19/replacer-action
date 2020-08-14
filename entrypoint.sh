@@ -89,6 +89,7 @@ commit_push_dst_file(){
     if [[ -n "${diff}" ]]; then
         git add "$DST_FILE_PATH"
         git commit -m "$GIT_COMMIT_MSG"
+        git commit --amend --author="${GIT_USER_NAME}<${GIT_USER_EMAIL}>"
         git push
     else
         echo "Nothing to commit"
