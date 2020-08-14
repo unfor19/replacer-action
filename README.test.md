@@ -5,7 +5,7 @@ Test README.md
 ```html
 <!-- replacer_start -->
 
-<div>User name will appear here instead</div>
+<div>runner</div>
 
 <!-- replacer_end -->
 ```
