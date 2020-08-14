@@ -42,7 +42,6 @@ options=true false
 name=backup_file_path
 short=bp
 description=Full path to backup file
-default=
 allow_empty=true
 ---
 name=bargs
