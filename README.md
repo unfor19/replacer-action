@@ -50,8 +50,8 @@ jobs:
           git-user-name:   "GitHub Actions"
           git-user-email:  "githubactions@meirg.co.il"
           git-commit-msg:  "Updated by GitHubActions"
-		      git-skip-commit: false
-		      git-skip-push:   false
+          git-skip-commit: false
+          git-skip-push:   false
           create-backup:   true
 ```
 
