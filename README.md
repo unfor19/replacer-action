@@ -36,7 +36,7 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - uses: unfor19/replacer-action@v1.0.0
+      - uses: actions/checkout@v2
       - name: Prepare source file
       run: |
         echo "<div>$(whoami)</div>" > test_results.log
