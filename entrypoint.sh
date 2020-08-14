@@ -1,6 +1,5 @@
 #!/bin/bash
 echo "PWD: ${PWD}"
-echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
 ROOTDIR=/github/workspace
 
 source "/code/scripts/bargs.sh" "$@"
