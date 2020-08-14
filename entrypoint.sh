@@ -79,8 +79,8 @@ commit_push_dst_file(){
 
     diff=$(git diff)
     if [[ -n "${diff}" ]]; then
-        git add "$DST_FILE_PATH"
-        git commit -m "$GIT_COMMIT_MSG"
+        git add "$DST_FILE_PATH" --author="${GIT_USER_NAME}<${GIT_USER_EMAIL}>"
+        git commit -m "$GIT_COMMIT_MSG" --author="${GIT_USER_NAME}<${GIT_USER_EMAIL}>"
         git push
     else
         echo "Nothing to commit"
