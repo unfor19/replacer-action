@@ -2,7 +2,9 @@
 echo "PWD: ${PWD}"
 echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
 
-source "$(dirname ${BASH_SOURCE[0]})"/scripts/bargs.sh "$@"
+ls -lah /code
+
+source "/code/scripts/bargs.sh" "$@"
 
 ### Utils
 error_msg(){
@@ -21,6 +23,7 @@ has_substring() {
 
 ### App Functions
 check_src_file(){
+    SRC_FILE_PATH="/github/workflow/${SRC_FILE_PATH}"
     if [[ -f "${SRC_FILE_PATH}" ]]; then
         SRC_FILE_STREAM=$(cat "${SRC_FILE_PATH}")    
     else
@@ -31,6 +34,7 @@ check_src_file(){
 
 check_dst_file(){
     local dst_file_stream
+    DST_FILE_PATH="/github/workflow/${DST_FILE_PATH}"
     if [[ -f "${DST_FILE_PATH}" ]]; then
         dst_file_stream=$(cat "${DST_FILE_PATH}")
         if ! has_substring "$dst_file_stream" "$START_VALUE"; then
