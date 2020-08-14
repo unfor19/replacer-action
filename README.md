@@ -1,6 +1,6 @@
 # replacer-action
 
-[![testing](https://github.com/unfor19/replacer-action/workflows/Update%20README.md/badge.svg)](https://github.com/unfor19/replacer-action/actions?query=workflow%3Atesting)
+[![testing](https://github.com/unfor19/replacer-action/workflows/testing/badge.svg)](https://github.com/unfor19/replacer-action/actions?query=workflow%3Atesting)
 
 Auto-update README.md file according to the source code.
 
