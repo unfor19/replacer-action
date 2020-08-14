@@ -28,7 +28,7 @@ inputs:
   git-commit-msg:
     description: "Commit message"
     required: false
-    default: "Updated by GitHubActions"
+    default: "Updated by GitHub Actions"
   create-backup:
     description: "Create a backup file, for example README.md.bak"
     required: false

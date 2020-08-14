@@ -31,7 +31,7 @@ default=githubactions@meirg.co.il
 name=git_commit_msg
 short=gm
 description=Git commit message
-default="Updated by GitHubActions"
+default="Updated by GitHub Actions"
 ---
 name=create_backup
 short=cb
