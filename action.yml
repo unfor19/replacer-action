@@ -1,4 +1,7 @@
-name: "Update README.md"
+name: "replacer-action"
+branding:
+  icon: "align-justify"
+  color: "white"
 description: "Auto-update README.md according to soucre code"
 inputs:
   src-file-path:
