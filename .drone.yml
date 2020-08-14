@@ -4,10 +4,11 @@ name: testing-drone
 
 steps:
   - name: Prepare source file
+    image: alpine:3.12
     cmd: |
       echo "<div>$(whoami)</div>" > test_results.log
   - name: Dry run
-    image: unfor19/replacer-action
+    image: unfor19/replacer-action:latest
     settings:
       src-file-path: "test_results.log"
       dst-file-path: "README.test.md"
