@@ -1,0 +1,16 @@
+kind: pipeline
+type: docker
+name: testing-drone
+
+steps:
+  - name: Prepare source file
+    cmd: |
+      echo "<div>$(whoami)</div>" > test_results.log
+  - name: Dry run
+    image: unfor19/replacer-action
+    settings:
+      src-file-path: "test_results.log"
+      dst-file-path: "README.test.md"
+      start-value: "<!-- replacer_start -->"
+      end-value: "<!-- replacer_end -->"
+      git-skip-push: true

@@ -3,3 +3,4 @@
 !.*ignore
 *.bak
 incoming.txt
+!.drone.yml
