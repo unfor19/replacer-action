@@ -2,54 +2,64 @@
 name=src_file_path
 short=sf
 description=Full path to source file that will be injected
+allow_env_var=true
 ---
 name=dst_file_path
 short=df
 description=Full path to destination file
 default=README.md
+allow_env_var=true
 ---
 name=start_value
 short=sv
 description=From where to start
 default="<!-- replacer_start -->"
+allow_env_var=true
 ---
 name=end_value
 short=ev
 description=Where to stop
 default="<!-- replacer_end -->"
+allow_env_var=true
 ---
 name=git_user_name
 short=gu
 description=Actor user name
 default="GitHub Actions"
+allow_env_var=true
 ---
 name=git_user_email
 short=ge
 description=Actor email address
 default=githubactions@meirg.co.il
+allow_env_var=true
 ---
 name=git_commit_msg
 short=gm
 description=Git commit message
 default="Updated by GitHub Actions"
+allow_env_var=true
 ---
 name=git_skip_commit
 short=gsc
 description=Skip Git commit
 options=true false
 default=false
+allow_env_var=true
 ---
 name=git_skip_push
 short=gsp
 description=Skip Git push
 options=true false
 default=false
+allow_env_var=true
 ---
 name=create_backup
 short=cb
 description=Create a backup file
 default=true
 options=true false
+allow_env_var=true
 ---
 name=bargs
 description=bash entrypoint.sh --help
