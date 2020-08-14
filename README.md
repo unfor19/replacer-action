@@ -40,7 +40,7 @@ jobs:
       - name: Prepare source file
       run: |
         echo "<div>$(whoami)</div>" > test_results.log
-	  - uses: actions/replacer-action@v1
+      - uses: actions/replacer-action@v1
         name: Update README.md file
         with:
           src-file-path: test_results.log
