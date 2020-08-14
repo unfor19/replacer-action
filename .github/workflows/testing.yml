@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Prepare source file
+        run: |
+          echo "<div>$(whoami)</div>" > test_results.log
       - name: Update README.md file
         uses: ./ # Uses an action in the root directory
         with:
