@@ -33,9 +33,3 @@ jobs:
         with:
           src-file-path: test_results.log
           dst-file-path: README.test.md
-          start-value: "<!-- replacer_start -->"
-          end-value: "<!-- replacer_end -->"
-          git-user-name: "GitHubActions"
-          git-user-email: "GitHubActions@GitHub.Actions"
-          git-commit-msg: "Updated by GitHubActions"
-          create-backup: true

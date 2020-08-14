@@ -21,7 +21,7 @@ default="<!-- replacer_end -->"
 name=git_user_name
 short=gu
 description=Actor user name
-default=GitHubActions
+default="GitHub Actions"
 ---
 name=git_user_email
 short=ge
