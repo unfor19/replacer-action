@@ -13,6 +13,11 @@ error_msg(){
     exit 1
 }
 
+log_msg(){
+    local msg=$1
+    echo -e "[LOG] $msg"
+}
+
 
 has_substring() {
    # https://stackoverflow.com/a/38678184/5285732
@@ -63,7 +68,7 @@ update_dst_file(){
         "${DST_FILE_PATH}")
 
     if [[ -z $result ]]; then
-        echo "[LOG] Updated Successfully"
+        log_msg "Updated ${DST_FILE_PATH} Successfully"
     else
         echo "[ERROR] Failed to update, output"
         echo "$result"
@@ -84,21 +89,21 @@ commit_push_dst_file(){
         if [[ $GIT_SKIP_COMMIT = "false" ]]; then
             git commit -m "$GIT_COMMIT_MSG"
         else
-            echo "[LOG] Skipped Git commit"
+            log_msg "Skipped Git commit"
         fi
         if [[ $GIT_SKIP_PUSH = "false" ]]; then
             git push
         else
-            echo "[LOG] Skipped Git push"            
+            log_msg "Skipped Git push"            
         fi
     else
-        echo "Nothing to commit"
+        log_msg "Nothing to commit"
     fi
 }
 
 
 ### Main
-echo "[LOG] Start update ..."
+log_msg "Start update ..."
 check_src_file
 check_dst_file
 create_backup
