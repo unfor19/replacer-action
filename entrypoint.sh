@@ -1,4 +1,7 @@
 #!/bin/bash
+echo "PWD: ${PWD}"
+echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
+
 source "${PWD}"/"$(dirname ${BASH_SOURCE[0]})"/scripts/bargs.sh "$@"
 
 ### Utils
