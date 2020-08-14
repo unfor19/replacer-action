@@ -3,12 +3,15 @@ echo "PWD: ${PWD}"
 echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
 ROOTDIR=/github/workspace
 
+source "/code/scripts/bargs.sh" "$@"
+
 echo "$SRC_FILE_PATH"
 echo "$DST_FILE_PATH"
 echo "$START_VALUE"
 echo "$END_VALUE"
-
-source "/code/scripts/bargs.sh" "$@"
+echo "$GIT_USER_NAME"
+echo "$GIT_USER_EMAIL"
+echo "$GIT_COMMIT_MSG"
 
 ### Utils
 error_msg(){
