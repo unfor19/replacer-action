@@ -24,7 +24,7 @@ inputs:
   git-user-email:
     description: "Email address of the user that will appear as the actor"
     required: false
-    default: "GitHubActions@GitHub.Actions"
+    default: "githubactions@meirg.co.il"
   git-commit-msg:
     description: "Commit message"
     required: false
