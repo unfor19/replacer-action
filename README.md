@@ -38,21 +38,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Prepare source file
-      run: |
-        echo "<div>$(whoami)</div>" > test_results.log
+        run: |
+          echo "<div>$(whoami)</div>" > test_results.log
       - uses: unfor19/replacer-action@v1.0.0
         name: Update README.md file
         with:
-          src-file-path:   "test_results.log"
-          dst-file-path:   "README.md"
-          start-value:     "<!-- replacer_start -->"
-          end-value:       "<!-- replacer_end -->"
-          git-user-name:   "GitHub Actions"
-          git-user-email:  "githubactions@meirg.co.il"
-          git-commit-msg:  "Updated by GitHubActions"
+          src-file-path: "test_results.log"
+          dst-file-path: "README.md"
+          start-value: "<!-- replacer_start -->"
+          end-value: "<!-- replacer_end -->"
+          git-user-name: "GitHub Actions"
+          git-user-email: "githubactions@meirg.co.il"
+          git-commit-msg: "Updated by GitHubActions"
           git-skip-commit: false
-          git-skip-push:   false
-          create-backup:   true
+          git-skip-push: false
+          create-backup: true
 ```
 
 ## Authors
