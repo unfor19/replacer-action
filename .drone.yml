@@ -14,4 +14,5 @@ steps:
       dst_file_path: "README.test.md"
       start_value: "<!-- replacer_start -->"
       end_value: "<!-- replacer_end -->"
+      git_skip_commit: false
       git_skip_push: true
