@@ -36,11 +36,11 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: unfor19/replacer-action@v1.0.0
       - name: Prepare source file
       run: |
         echo "<div>$(whoami)</div>" > test_results.log
-      - uses: actions/replacer-action@v1
+      - uses: unfor19/replacer-action@v1.0.0
         name: Update README.md file
         with:
           src-file-path:   "test_results.log"
