@@ -27,18 +27,21 @@ short=gu
 description=Actor user name
 default="GitHub Actions"
 allow_env_var=true
+allow_empty=true
 ---
 name=git_user_email
 short=ge
 description=Actor email address
 default=githubactions@meirg.co.il
 allow_env_var=true
+allow_empty=true
 ---
 name=git_commit_msg
 short=gm
 description=Git commit message
 default="Updated by GitHub Actions"
 allow_env_var=true
+allow_empty=true
 ---
 name=git_skip_commit
 short=gsc
