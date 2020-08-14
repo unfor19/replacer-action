@@ -28,7 +28,7 @@ check_src_file(){
     if [[ -f "${SRC_FILE_PATH}" ]]; then
         SRC_FILE_STREAM=$(cat "${SRC_FILE_PATH}")    
     else
-        error_msg "${SRC_FILE_PATH} doesn't exist."
+        error_msg "Source file ${SRC_FILE_PATH} doesn't exist."
     fi
 }
 
@@ -39,10 +39,10 @@ check_dst_file(){
     if [[ -f "${DST_FILE_PATH}" ]]; then
         dst_file_stream=$(cat "${DST_FILE_PATH}")
         if ! has_substring "$dst_file_stream" "$START_VALUE"; then
-            error_msg "${DST_FILE_PATH} doesn't contain ${START_VALUE}"
+            error_msg "Destination file ${DST_FILE_PATH} doesn't contain ${START_VALUE}"
         fi
         if ! has_substring "$dst_file_stream" "$END_VALUE"; then
-            error_msg "${DST_FILE_PATH} doesn't contain ${ENDVALUE}"
+            error_msg "Destination file ${DST_FILE_PATH} doesn't contain ${END_VALUE}"
         fi
     else
         error_msg "${SRC_FILE_PATH} doesn't exist."
