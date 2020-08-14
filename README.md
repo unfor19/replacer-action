@@ -19,14 +19,13 @@ Auto-update README.md file according to the source code.
 2. Prepare a file with the text that you want to inject
 
 ```bash
-$ echo -e '<div>This is the incoming text block</div>\n<div>It worked!</div>' > README.md
+$ echo -e '<div>This is the incoming text block</div>\n<div>It worked!</div>' > test_results.log
 ```
 
 ## Usage
 
-```yml
+```yaml
 name: Update README.md
-
 on:
   push:
     branches: [master]
@@ -52,7 +51,6 @@ jobs:
 			git-user-email: "GitHubActions@GitHub.Actions"
 			git-commit-msg: "Updated by GitHubActions"
 			create-backup: true
-			backup-file-path: "./"
 ```
 
 ## Authors
