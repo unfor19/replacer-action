@@ -47,8 +47,8 @@ jobs:
 			dst-file-path: README.md
 			start-value: "<!-- replacer_start -->"
 			end-value: "<!-- replacer_end -->"
-			git-user-name: "GitHubActions"
-			git-user-email: "GitHubActions@GitHub.Actions"
+			git-user-name: "GitHub Actions"
+			git-user-email: "githubactions@meirg.co.il"
 			git-commit-msg: "Updated by GitHubActions"
 			create-backup: true
 ```
