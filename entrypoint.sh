@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "PWD: ${PWD}"
 echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
-ROOTDIR=/github/home
+ROOTDIR=/github/workspace
 
 ls -lah "$ROOTDIR"
 
