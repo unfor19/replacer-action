@@ -26,7 +26,7 @@ default="GitHub Actions"
 name=git_user_email
 short=ge
 description=Actor email address
-default=GitHubActions@GitHub.Actions
+default=githubactions@meirg.co.il
 ---
 name=git_commit_msg
 short=gm
