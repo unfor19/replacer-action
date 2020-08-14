@@ -74,14 +74,13 @@ update_dst_file(){
 
 commit_push_dst_file(){
     local diff
-    git config --global user.email "$GIT_USER_NAME"
-    git config --global user.name "$GIT_USER_EMAIL"
+    git config --global user.name "$GIT_USER_NAME"
+    git config --global user.email "$GIT_USER_EMAIL"
 
     diff=$(git diff)
     if [[ -n "${diff}" ]]; then
         git add "$DST_FILE_PATH"
         git commit -m "$GIT_COMMIT_MSG"
-        git commit --amend --author="${GIT_USER_NAME}<${GIT_USER_EMAIL}>"
         git push
     else
         echo "Nothing to commit"
