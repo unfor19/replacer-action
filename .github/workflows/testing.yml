@@ -25,4 +25,3 @@ jobs:
           git-user-email: "GitHubActions@GitHub.Actions"
           git-commit-msg: "Updated by GitHubActions"
           create-backup: true
-          backup-file-path: "./"
