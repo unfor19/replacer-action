@@ -1,17 +1,12 @@
 ---
-name=dst_file_path
-short=df
-description=Full path to destination file
----
 name=src_file_path
 short=sf
 description=Full path to source file that will be injected
-default=replacer_null
 ---
-name=src_text
-short=st
-description=Text of the source to inject
-default=replacer_null
+name=dst_file_path
+short=df
+description=Full path to destination file
+default=README.md
 ---
 name=start_value
 short=sv
@@ -23,6 +18,21 @@ short=ev
 description=Where to stop
 default="<!-- replacer_end -->"
 ---
+name=git_user_name
+short=gu
+description=Actor user name
+default=GitHubActions
+---
+name=git_user_email
+short=ge
+description=Actor email address
+default=GitHubActions@GitHub.Actions
+---
+name=git_commit_msg
+short=gm
+description=Git commit message
+default="Updated by GitHubActions"
+---
 name=create_backup
 short=cb
 description=Create a backup file
@@ -33,9 +43,10 @@ name=backup_file_path
 short=bp
 description=Full path to backup file
 default=./
+allow_empty=true
 ---
 name=bargs
-description=bash main.sh -sf incoming.txt -df README.md
+description=bash entrypoint.sh --help
 default=irrelevant
 ---
 ---

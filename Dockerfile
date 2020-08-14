@@ -1,7 +1,7 @@
-FROM ubuntu:18.04
-RUN apt-get update -y && apt-get install -y bsdmainutils
+FROM alpine:3.11
+RUN apk --no-cache add util-linux bash perl
 WORKDIR /code
 COPY . .
 RUN chmod +x **/*.sh
-ENTRYPOINT [ "./main.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD [ "--help" ]

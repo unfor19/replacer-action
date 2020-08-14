@@ -1,0 +1,62 @@
+name: "Update README.md"
+description: "Auto-update README.md according to soucre code"
+inputs:
+  src-file-path:
+    description: "The file to get the text from"
+    required: true
+    default: ""
+  dst-file-path:
+    description: "The file to update, defaults to README.md"
+    required: true
+    default: "README.md"
+  start-value:
+    description: "The tag before the text block"
+    required: true
+    default: "<!-- replacer_start -->"
+  end-value:
+    description: "The tag after the text block"
+    required: true
+    default: "<!-- replacer_end -->"
+  git-user-name:
+    description: "Name of the user that will appear as the actor"
+    required: false
+    default: "GitHubActions"
+  git-user-email:
+    description: "Email address of the user that will appear as the actor"
+    required: false
+    default: "GitHubActions@GitHub.Actions"
+  git-commit-msg:
+    description: "Commit message"
+    required: false
+    default: "Updated by GitHubActions"
+  create-backup:
+    description: "Create a backup file, for example README.md.bak"
+    required: false
+    default: "true"
+  backup-file-path:
+    description: "Create a backup file, for example README.md.bak"
+    required: false
+    default: ""
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - --src_file_path
+    - ${{ inputs.src-file-path }}
+    - --dst_file_path
+    - ${{ inputs.dst-file-path }}
+    - --start_value
+    - ${{ inputs.start-value }}
+    - --end_value
+    - ${{ inputs.end-value }}
+    - --git_user_name
+    - ${{ inputs.git-user-name }}
+    - --git_user_email
+    - ${{ inputs.git-user-email }}
+    - --git_commit_msg
+    - ${{ inputs.git-commit-msg }}
+    - --create_backup
+    - ${{ inputs.create-backup }}
+    - --backup_file_path
+    - ${{ inputs.backup-file-path }}
