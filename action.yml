@@ -29,6 +29,14 @@ inputs:
     description: "Commit message"
     required: false
     default: "Updated by GitHub Actions"
+  git-skip-commit:
+    description: "Skip Git commit"
+    required: false
+    default: false
+  git-skip-push:
+    description: "Skip Git push"
+    required: false
+    default: false
   create-backup:
     description: "Create a backup file, for example README.md.bak"
     required: false
@@ -52,5 +60,9 @@ runs:
     - ${{ inputs.git-user-email }}
     - --git_commit_msg
     - ${{ inputs.git-commit-msg }}
+    - --git_skip_commit
+    - ${{ inputs.git-skip-commit }
+    - --git_skip_push
+    - ${{ inputs.git-skip-push }
     - --create_backup
     - ${{ inputs.create-backup }}

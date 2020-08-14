@@ -21,19 +21,29 @@ default="<!-- replacer_end -->"
 name=git_user_name
 short=gu
 description=Actor user name
-allow_empty=true
 default="GitHub Actions"
 ---
 name=git_user_email
 short=ge
 description=Actor email address
-allow_empty=true
 default=githubactions@meirg.co.il
 ---
 name=git_commit_msg
 short=gm
 description=Git commit message
 default="Updated by GitHub Actions"
+---
+name=git_skip_commit
+short=gsc
+description=Skip Git commit
+options=true false
+default=false
+---
+name=git_skip_push
+short=gsp
+description=Skip Git push
+options=true false
+default=false
 ---
 name=create_backup
 short=cb

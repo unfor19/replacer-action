@@ -74,17 +74,23 @@ update_dst_file(){
 
 commit_push_dst_file(){
     local diff
-    if [[ -z $GIT_USER_NAME || -z $GIT_USER_EMAIL ]]; then
-        echo "[LOG] Skipped commit and push"
-    fi
     git config --global user.name "$GIT_USER_NAME"
     git config --global user.email "$GIT_USER_EMAIL"
 
     diff=$(git diff)
     if [[ -n "${diff}" ]]; then
         git add "$DST_FILE_PATH"
-        git commit -m "$GIT_COMMIT_MSG"
-        git push
+
+        if [[ $GIT_SKIP_COMMIT != "false" ]]; then
+            git commit -m "$GIT_COMMIT_MSG"
+        else
+            echo "[LOG] Skipped Git commit"
+        fi
+        if [[ $GIT_SKIP_PUSH != "false" ]]; then
+            git push
+        else
+            echo "[LOG] Skipped Git push"            
+        fi
     else
         echo "Nothing to commit"
     fi

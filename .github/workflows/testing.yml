@@ -31,6 +31,7 @@ jobs:
           dst-file-path: "README.test.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
+
   dry-run:
     runs-on: ubuntu-latest
     steps:
@@ -45,7 +46,7 @@ jobs:
           dst-file-path: "README.test.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
-          git-user-name: ""
+          git-skip-push: true
       - name: Prepare original source file
         run: |
           echo "<div>User name will appear here instead</div>" > "test_results.log"
@@ -56,4 +57,4 @@ jobs:
           dst-file-path: "README.test.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
-          git-user-name: ""
+          git-skip-push: true
