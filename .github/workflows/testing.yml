@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-	    - uses: ./
-        name: Update README.md file
+	    - name: Update README.md file
+        uses: ./ # Uses an action in the root directory
         with:
           src-file-path: test_results.log
           dst-file-path: README.test.md
