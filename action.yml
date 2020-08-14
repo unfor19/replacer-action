@@ -61,8 +61,8 @@ runs:
     - --git_commit_msg
     - ${{ inputs.git-commit-msg }}
     - --git_skip_commit
-    - ${{ inputs.git-skip-commit }
+    - ${{ inputs.git-skip-commit }}
     - --git_skip_push
-    - ${{ inputs.git-skip-push }
+    - ${{ inputs.git-skip-push }}
     - --create_backup
     - ${{ inputs.create-backup }}
