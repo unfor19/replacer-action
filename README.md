@@ -24,6 +24,8 @@ $ echo -e '<div>This is the incoming text block</div>\n<div>It worked!</div>' > 
 
 ## Usage
 
+### GitHub Action
+
 ```yaml
 name: Update README.md
 on:
@@ -53,6 +55,33 @@ jobs:
           git-skip-commit: false
           git-skip-push: false
           create-backup: true
+```
+
+### drone
+
+```yaml
+kind: pipeline
+type: docker
+name: testing-drone
+
+steps:
+  - name: Prepare source file
+    image: alpine:3.12
+    cmd: |
+      echo "<div>$(whoami)</div>" > test_results.log
+  - name: Dry run
+    image: unfor19/replacer-action:latest
+    settings:
+      src_file_path: "test_results.log"
+      dst_file_path: "README.test.md"
+      start_value: "<!-- replacer_start -->"
+      end_value: "<!-- replacer_end -->"
+      git_user_name: "Drone"
+      git_user_email: "drone@meirg.co.il"
+      git_commit_msg: "Updated by Drone.io"
+      git_skip_commit: false
+      git_skip_push: false
+      create_backup: true
 ```
 
 ## Authors
