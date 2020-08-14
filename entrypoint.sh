@@ -81,12 +81,12 @@ commit_push_dst_file(){
     if [[ -n "${diff}" ]]; then
         git add "$DST_FILE_PATH"
 
-        if [[ $GIT_SKIP_COMMIT != "false" ]]; then
+        if [[ $GIT_SKIP_COMMIT = "false" ]]; then
             git commit -m "$GIT_COMMIT_MSG"
         else
             echo "[LOG] Skipped Git commit"
         fi
-        if [[ $GIT_SKIP_PUSH != "false" ]]; then
+        if [[ $GIT_SKIP_PUSH = "false" ]]; then
             git push
         else
             echo "[LOG] Skipped Git push"            
