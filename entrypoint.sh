@@ -2,18 +2,27 @@
 ROOTDIR=${PWD}
 
 ### Support drone
-if [[ -n $DRONE ]]; then
-    env_vars=$(printenv)
-    while read -r line; do
-        arg_name=$(echo "$line"  | cut -f1 -d "=")
-        is_plugin=$(echo "$arg_name" | grep "^PLUGIN_")
-        if [[ -n $is_plugin ]]; then
-            arg_name=${arg_name//PLUGIN_/}
-            arg_value=$(echo "$line" | cut -f2 -d "=")
-            export "$arg_name=$arg_value"
-        fi
-    done < "$env_vars"
-fi
+support_drone(){
+    local arg_name
+    local arg_value
+    local is_plugin
+    if [[ -n $DRONE ]]; then
+        printenv > .replacer_env_vars
+        while read -r line; do
+            arg_name=$(echo "$line" | cut -f1 -d "=")
+            is_plugin=$(echo "$arg_name" | grep "^PLUGIN_")
+            if [[ -n $is_plugin ]]; then
+                arg_name=${arg_name//PLUGIN_/}
+                arg_value=$(echo "$line" | cut -f2 -d "=")
+                export "${arg_name^^}=${arg_value}"
+            fi
+        done < .replacer_env_vars
+    fi
+    rm -f .replacer_env_vars
+}
+
+support_drone
+
 
 ### Parsing command-line arguments
 source "/code/scripts/bargs.sh" "$@"

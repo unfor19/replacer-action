@@ -10,8 +10,8 @@ steps:
   - name: Dry run
     image: unfor19/replacer-action:latest
     settings:
-      src-file-path: "test_results.log"
-      dst-file-path: "README.test.md"
-      start-value: "<!-- replacer_start -->"
-      end-value: "<!-- replacer_end -->"
-      git-skip-push: true
+      src_file_path: "test_results.log"
+      dst_file_path: "README.test.md"
+      start_value: "<!-- replacer_start -->"
+      end_value: "<!-- replacer_end -->"
+      git_skip_push: true
