@@ -21,10 +21,10 @@ jobs:
           dst-file-path: README.test.md
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
-      - name: Prepare source file again
+      - name: Prepare original source file
         run: |
           echo "<div>User name will appear here instead</div>" > test_results.log
-      - name: Update README.md file again
+      - name: Revert README.test.md file
         uses: ./ # Uses an action in the root directory
         with:
           src-file-path: test_results.log
