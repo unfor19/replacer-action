@@ -2,7 +2,7 @@
 echo "PWD: ${PWD}"
 echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
 
-ls -lah /code
+ls -lah $RUNNER_WORKSPACE
 
 source "/code/scripts/bargs.sh" "$@"
 
