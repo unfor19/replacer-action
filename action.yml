@@ -32,11 +32,11 @@ inputs:
   git-skip-commit:
     description: "Skip Git commit"
     required: false
-    default: false
+    default: "false"
   git-skip-push:
     description: "Skip Git push"
     required: false
-    default: false
+    default: "false"
   create-backup:
     description: "Create a backup file, for example README.md.bak"
     required: false
