@@ -3,5 +3,5 @@ RUN apk --no-cache add util-linux bash perl
 WORKDIR /code
 COPY . .
 RUN chmod +x **/*.sh
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "/code/entrypoint.sh" ]
 CMD [ "--help" ]
