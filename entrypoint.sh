@@ -5,14 +5,6 @@ ROOTDIR=/github/workspace
 
 source "/code/scripts/bargs.sh" "$@"
 
-echo "$SRC_FILE_PATH"
-echo "$DST_FILE_PATH"
-echo "$START_VALUE"
-echo "$END_VALUE"
-echo "$GIT_USER_NAME"
-echo "$GIT_USER_EMAIL"
-echo "$GIT_COMMIT_MSG"
-
 ### Utils
 error_msg(){
     local msg=$1
@@ -98,10 +90,9 @@ commit_push_dst_file(){
 
 
 ### Main
-echo "Start"
+echo "[LOG] Start update ..."
 check_src_file
 check_dst_file
 create_backup
 update_dst_file
 commit_push_dst_file
-echo "End"
