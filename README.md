@@ -49,7 +49,7 @@ jobs:
           end-value: "<!-- replacer_end -->"
           git-user-name: "GitHub Actions"
           git-user-email: "githubactions@meirg.co.il"
-          git-commit-msg: "Updated by GitHubActions"
+          git-commit-msg: "Updated by GitHub Actions"
           git-skip-commit: false
           git-skip-push: false
           create-backup: true
