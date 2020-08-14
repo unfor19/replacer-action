@@ -31,3 +31,29 @@ jobs:
           dst-file-path: "README.test.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare source file
+        run: |
+          echo "<div>$(whoami)</div>" > test_results.log
+      - name: Update README.md file
+        uses: ./ # Uses an action in the root directory
+        with:
+          src-file-path: "test_results.log"
+          dst-file-path: "README.test.md"
+          start-value: "<!-- replacer_start -->"
+          end-value: "<!-- replacer_end -->"
+          git-user-name: ""
+      - name: Prepare original source file
+        run: |
+          echo "<div>User name will appear here instead</div>" > "test_results.log"
+      - name: Revert README.test.md file
+        uses: ./ # Uses an action in the root directory
+        with:
+          src-file-path: "test_results.log"
+          dst-file-path: "README.test.md"
+          start-value: "<!-- replacer_start -->"
+          end-value: "<!-- replacer_end -->"
+          git-user-name: ""

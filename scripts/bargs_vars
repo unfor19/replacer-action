@@ -21,11 +21,13 @@ default="<!-- replacer_end -->"
 name=git_user_name
 short=gu
 description=Actor user name
+allow_empty=true
 default="GitHub Actions"
 ---
 name=git_user_email
 short=ge
 description=Actor email address
+allow_empty=true
 default=githubactions@meirg.co.il
 ---
 name=git_commit_msg

@@ -74,6 +74,9 @@ update_dst_file(){
 
 commit_push_dst_file(){
     local diff
+    if [[ -z $GIT_USER_NAME || -z $GIT_USER_EMAIL ]]; then
+        echo "[LOG] Skipped commit and push"
+    fi
     git config --global user.name "$GIT_USER_NAME"
     git config --global user.email "$GIT_USER_EMAIL"
 
