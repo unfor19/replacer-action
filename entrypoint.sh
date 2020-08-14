@@ -6,6 +6,7 @@ support_drone(){
     local arg_name
     local arg_value
     local is_plugin
+    local print_name
     if [[ -n $DRONE ]]; then
         printenv > .replacer_env_vars
         while read -r line; do
@@ -15,6 +16,8 @@ support_drone(){
                 arg_name=${arg_name//PLUGIN_/}
                 arg_value=$(echo "$line" | cut -f2 -d "=")
                 export "${arg_name^^}=${arg_value}"
+                declare -n print_name=${arg_name^^}
+                echo "${arg_name^^} = $print_name"
             fi
         done < .replacer_env_vars
     fi
