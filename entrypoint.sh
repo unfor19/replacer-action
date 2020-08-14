@@ -1,8 +1,9 @@
 #!/bin/bash
 echo "PWD: ${PWD}"
 echo "DIRNAME: $(dirname "${BASH_SOURCE[0]}")"
+ROOTDIR=/github/home
 
-ls -lah "$HOME"
+ls -lah "$ROOTDIR"
 
 source "/code/scripts/bargs.sh" "$@"
 
@@ -23,7 +24,7 @@ has_substring() {
 
 ### App Functions
 check_src_file(){
-    SRC_FILE_PATH="${HOME}/${SRC_FILE_PATH}"
+    SRC_FILE_PATH="${ROOTDIR}/${SRC_FILE_PATH}"
     if [[ -f "${SRC_FILE_PATH}" ]]; then
         SRC_FILE_STREAM=$(cat "${SRC_FILE_PATH}")    
     else
@@ -34,7 +35,7 @@ check_src_file(){
 
 check_dst_file(){
     local dst_file_stream
-    DST_FILE_PATH="${HOME}/${DST_FILE_PATH}"
+    DST_FILE_PATH="${ROOTDIR}/${DST_FILE_PATH}"
     if [[ -f "${DST_FILE_PATH}" ]]; then
         dst_file_stream=$(cat "${DST_FILE_PATH}")
         if ! has_substring "$dst_file_stream" "$START_VALUE"; then
@@ -52,7 +53,7 @@ check_dst_file(){
 create_backup(){
     if [[ "${CREATE_BACKUP}" == "true" ]]; then
         CREATE_BACKUP=".bak"
-        [[ -z "${BACKUP_FILE_PATH}" ]] && CREATE_BACKUP="${BACKUP_FILE_PATH}"
+        [[ -z "${BACKUP_FILE_PATH}" ]] && CREATE_BACKUP="${ROOTDIR}/${BACKUP_FILE_PATH}"
     else
         CREATE_BACKUP=""
     fi
