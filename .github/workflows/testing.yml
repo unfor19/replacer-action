@@ -17,17 +17,17 @@ jobs:
       - name: Update README.md file
         uses: ./ # Uses an action in the root directory
         with:
-          src-file-path: test_results.log
-          dst-file-path: README.test.md
+          src-file-path: "test_results.log"
+          dst-file-path: "README.test.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
       - name: Prepare original source file
         run: |
-          echo "<div>User name will appear here instead</div>" > test_results.log
+          echo "<div>User name will appear here instead</div>" > "test_results.log"
       - name: Revert README.test.md file
         uses: ./ # Uses an action in the root directory
         with:
-          src-file-path: test_results.log
-          dst-file-path: README.test.md
+          src-file-path: "test_results.log"
+          dst-file-path: "README.test.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"

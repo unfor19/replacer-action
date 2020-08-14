@@ -43,8 +43,8 @@ jobs:
       - uses: actions/replacer-action@v1
         name: Update README.md file
         with:
-          src-file-path: test_results.log
-          dst-file-path: README.md
+          src-file-path: "test_results.log"
+          dst-file-path: "README.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
           git-user-name: "GitHub Actions"
