@@ -4,4 +4,3 @@ WORKDIR /code
 COPY . .
 RUN chmod +x **/*.sh
 ENTRYPOINT [ "/code/entrypoint.sh" ]
-CMD [ "--help" ]
