@@ -40,7 +40,7 @@ jobs:
       - name: Prepare source file
         run: |
           echo "<div>$(whoami)</div>" > test_results.log
-      - uses: unfor19/replacer-action@v1.0.0
+      - uses: unfor19/replacer-action@v1.0.2
         name: Update README.md file
         with:
           src-file-path: "test_results.log"
