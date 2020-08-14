@@ -59,9 +59,6 @@ check_dst_file(){
 create_backup(){
     if [[ "${CREATE_BACKUP}" == "true" ]]; then
         CREATE_BACKUP=".bak"
-        [[ -z "${BACKUP_FILE_PATH}" ]] && CREATE_BACKUP="${ROOTDIR}/${BACKUP_FILE_PATH}"
-    else
-        CREATE_BACKUP=""
     fi
 }
 

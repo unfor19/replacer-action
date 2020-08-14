@@ -33,10 +33,6 @@ inputs:
     description: "Create a backup file, for example README.md.bak"
     required: false
     default: "true"
-  backup-file-path:
-    description: "Create a backup file, for example README.md.bak"
-    required: false
-    default: ""
 
 runs:
   using: "docker"
@@ -58,5 +54,3 @@ runs:
     - ${{ inputs.git-commit-msg }}
     - --create_backup
     - ${{ inputs.create-backup }}
-    - --backup_file_path
-    - ${{ inputs.backup-file-path }}

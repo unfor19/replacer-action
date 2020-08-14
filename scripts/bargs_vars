@@ -39,11 +39,6 @@ description=Create a backup file
 default=true
 options=true false
 ---
-name=backup_file_path
-short=bp
-description=Full path to backup file
-allow_empty=true
----
 name=bargs
 description=bash entrypoint.sh --help
 default=irrelevant
