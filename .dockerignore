@@ -1,5 +1,6 @@
 **
 !tests
-!*.sh
-!scripts
+!bargs_vars
+!bargs.sh
+!entrypoint.sh
 !LICENSE

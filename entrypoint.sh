@@ -1,5 +1,12 @@
-#!/bin/bash
-ROOTDIR=${PWD}
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+### Requirements
+### ----------------------------------------
+### git, perl
+### ----------------------------------------
+
 
 ### Support drone
 support_drone(){
@@ -28,19 +35,22 @@ support_drone
 
 
 ### Parsing command-line arguments
-source "/code/scripts/bargs.sh" "$@"
+#shellcheck disable=SC1091
+source "/code/bargs.sh" "$@"
 
-### Utils
-error_msg(){
-    local msg=$1
-    echo -e "[ERROR] $msg"
+
+### Functions
+msg_error(){
+    local msg="$1"
+    echo -e "[ERROR] $(date) :: $msg"
     export DEBUG=1
     exit 1
 }
 
-log_msg(){
-    local msg=$1
-    echo -e "[LOG] $msg"
+
+msg_log(){
+    local msg="$1"
+    echo -e "[LOG] $(date) :: $msg"
 }
 
 
@@ -51,86 +61,131 @@ has_substring() {
 
 
 ### App Functions
-check_src_file(){
-    SRC_FILE_PATH="${ROOTDIR}/${SRC_FILE_PATH}"
-    if [[ -f "${SRC_FILE_PATH}" ]]; then
-        SRC_FILE_STREAM=$(cat "${SRC_FILE_PATH}")    
+get_src_file_stream(){
+    local src_file_path
+    src_file_path="$1"
+    if [[ -f "$src_file_path" ]]; then
+        cat "$src_file_path"
     else
-        error_msg "Source file ${SRC_FILE_PATH} doesn't exist."
+        error_msg "Source file ${src_file_path} does not exist."
     fi
 }
 
 
 check_dst_file(){
-    local dst_file_stream
-    DST_FILE_PATH="${ROOTDIR}/${DST_FILE_PATH}"
-    if [[ -f "${DST_FILE_PATH}" ]]; then
-        dst_file_stream=$(cat "${DST_FILE_PATH}")
-        if ! has_substring "$dst_file_stream" "$START_VALUE"; then
-            error_msg "Destination file ${DST_FILE_PATH} doesn't contain ${START_VALUE}"
+    local dst_file_path
+    local start_value
+    local end_value
+    local dst_file_stream=""    
+    dst_file_path="$1"
+    start_value="$2"
+    end_value="$3"
+    
+    if [[ -f "$dst_file_path" ]]; then
+        dst_file_stream=$(cat "$dst_file_path")
+        if ! has_substring "$dst_file_stream" "$start_value"; then
+            error_msg "Destination file ${dst_file_path} does not contain ${start_value}"
         fi
-        if ! has_substring "$dst_file_stream" "$END_VALUE"; then
-            error_msg "Destination file ${DST_FILE_PATH} doesn't contain ${END_VALUE}"
+        if ! has_substring "$dst_file_stream" "$end_value"; then
+            error_msg "Destination file ${dst_file_path} does not contain ${end_value}"
         fi
     else
-        error_msg "${SRC_FILE_PATH} doesn't exist."
+        error_msg "${dst_file_path} does not exist."
     fi    
 }
 
 
-create_backup(){
-    if [[ "${CREATE_BACKUP}" == "true" ]]; then
-        CREATE_BACKUP=".bak"
-    fi
-}
-
-
 update_dst_file(){
-    local result
+    local start_value
+    local end_value
+    local src_file_stream
+    local dst_file_path
+    local create_backup
+    local result=""    
+    start_value="$1"
+    end_value="$2"
+    src_file_stream="$3"
+    dst_file_path="$4"
+    create_backup="$5"
+    if [[ "$create_backup" == "true" ]]; then
+        create_backup=".bak"
+    else
+        create_backup=""
+    fi
+
     result=$(perl \
-        -i"${CREATE_BACKUP}" \
-        -p0e 's~(?<='"${START_VALUE}"'\n\n)(.*)(?=\n\n'"${END_VALUE}"')~'"${SRC_FILE_STREAM}"'\r~s' \
-        "${DST_FILE_PATH}")
+        -i"$create_backup" \
+        -p0e 's~(?<='"$start_value"'\n\n)(.*)(?=\n\n'"$end_value"')~'"$src_file_stream"'\r~s' \
+        "$dst_file_path")
 
     if [[ -z $result ]]; then
-        log_msg "Updated ${DST_FILE_PATH} Successfully"
+        msg_log "Updated ${dst_file_path} Successfully"
     else
-        echo "[ERROR] Failed to update, output"
-        echo "$result"
-        error_msg "[ERROR] Terminating"
+        msg_error "Failed to update, output\n${result}"
     fi
 }
 
 
-commit_push_dst_file(){
-    local diff
-    git config --global user.name "$GIT_USER_NAME"
-    git config --global user.email "$GIT_USER_EMAIL"
+git_config(){   
+    local git_user_name
+    local git_user_email
+    git_user_name="$1"
+    git_user_email="$2"
+    git config --global user.name "$git_user_name"
+    git config --global user.email "$git_user_email"
+}
 
-    diff=$(git diff)
-    if [[ -n "${diff}" ]]; then
-        git add "$DST_FILE_PATH"
 
-        if [[ $GIT_SKIP_COMMIT = "false" ]]; then
-            git commit -m "$GIT_COMMIT_MSG"
-        else
-            log_msg "Skipped Git commit"
-        fi
-        if [[ $GIT_SKIP_PUSH = "false" ]]; then
-            git push
-        else
-            log_msg "Skipped Git push"            
-        fi
+git_commit(){
+    local dst_file_path
+    local git_commit_msg
+    local diff_results     
+    dst_file_path="$1"
+    git_commit_msg="$2"
+
+    diff_results=$(git diff)
+    if [[ -n "$diff_results" ]]; then
+        git add "$dst_file_path"
+        git commit -m "$git_commit_msg"
     else
-        log_msg "Nothing to commit"
+        msg_log "Nothing to commit"
     fi
 }
+
+
+git_push(){
+    git push
+}
+
+
+### Global Variables
+_ROOTDIR=${PWD}
+#shellcheck disable=SC2153
+_SRC_FILE_PATH="${_ROOTDIR}/${SRC_FILE_PATH}"
+_SRC_FILE_STREAM="$(get_src_file_stream "$_SRC_FILE_PATH")"
+#shellcheck disable=SC2153
+_DST_FILE_PATH="${_ROOTDIR}/${DST_FILE_PATH}"
+_DST_FILE_STREAM="$(get_dst_file_stream "$_DST_FILE_PATH")"
+_START_VALUE="${START_VALUE:-"<!-- replacer_start -->"}"
+_END_VALUE="${END_VALUE:-"<!-- replacer_end -->"}"
+_GIT_SKIP_COMMIT="${GIT_SKIP_COMMIT:-"false"}"
+_GIT_SKIP_PUSH="${GIT_SKIP_PUSH:-"false"}"
+_GIT_USER_NAME="${GIT_USER_NAME:-"replacer-action"}"
+_GIT_USER_EMAIL="${GIT_USER_EMAIL:-"replacer-action@meirg.co.il"}"
+_GIT_COMMIT_MSG="${GIT_COMMIT_MSG:-"Updated by GitHub Actions"}"
+_CREATE_BACKUP="${CREATE_BACKUP:-"true"}"
 
 
 ### Main
-log_msg "Start update ..."
-check_src_file
-check_dst_file
-create_backup
-update_dst_file
-commit_push_dst_file
+msg_log "Start update ..."
+check_dst_file "$_DST_FILE_PATH" "$_START_VALUE" "$_END_VALUE"
+update_dst_file "$_START_VALUE" "$_END_VALUE" "$_SRC_FILE_STREAM" "$_DST_FILE_PATH" "$_CREATE_BACKUP"
+git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
+
+if [[ "$_GIT_SKIP_COMMIT" != "false" ]]; then
+    git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG" 
+fi
+
+if [[ "$_GIT_SKIP_PUSH" != "false" ]]; then
+    git_push "$_GIT_SKIP_PUSH"
+fi

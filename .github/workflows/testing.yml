@@ -9,7 +9,7 @@ on:
 
 jobs:
   update-readme:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Prepare source file
@@ -34,7 +34,7 @@ jobs:
           end-value: "<!-- replacer_end -->"
 
   dry-run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Prepare source file

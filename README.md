@@ -31,12 +31,13 @@ name: Update README.md
 on:
   push:
     branches: [master]
+    # IMPORTANT: Avoids endless loop
     paths-ignore:
       - "README.md"
 
 jobs:
   update-readme:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Prepare source file
@@ -49,15 +50,19 @@ jobs:
           dst-file-path: "README.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
-          git-user-name: "GitHub Actions"
-          git-user-email: "githubactions@meirg.co.il"
+          git-user-name: "replacer-action"
+          git-user-email: "replacer-action@meirg.co.il"
           git-commit-msg: "Updated by GitHub Actions"
           git-skip-commit: false
           git-skip-push: false
           create-backup: true
 ```
 
-### drone
+### drone.io
+
+<details>
+
+<summary>Expand/Collapse</summary>
 
 ```yaml
 kind: pipeline
@@ -83,6 +88,8 @@ steps:
       git_skip_push: false
       create_backup: true
 ```
+
+</details>
 
 ## Authors
 

@@ -1,12 +1,12 @@
 ---
 name=src_file_path
 short=sf
-description=Full path to source file that will be injected
+description=Relative path to source file that will be injected
 allow_env_var=true
 ---
 name=dst_file_path
 short=df
-description=Full path to destination file
+description=Relative path to destination file
 default=README.md
 allow_env_var=true
 ---
@@ -25,13 +25,13 @@ allow_env_var=true
 name=git_user_name
 short=gu
 description=Actor user name
-default="GitHub Actions"
+default="replacer-action"
 allow_env_var=true
 ---
 name=git_user_email
 short=ge
 description=Actor email address
-default=githubactions@meirg.co.il
+default=replacer-action@meirg.co.il
 allow_env_var=true
 ---
 name=git_commit_msg

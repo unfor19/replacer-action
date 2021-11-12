@@ -1,12 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+# trap ctrl-c and call ctrl_c()
+trap ctrl_c INT
+ctrl_c() {
+    exit 0
+}
 
 ### Global variables
-bargs_vars_path=""
-args=""
-num_of_args=0
-declare -A list_args_dicts
-num_of_dicts=0
+_BARGS_VARS_PATH=""
+_ARGS=""
+_NUM_OF_ARGS=0
+declare -A _LIST_ARGS_DICTS
+_NUM_OF_DICTS=0
 
 
 ### Functions
@@ -57,10 +62,12 @@ usage (){
     local usage_msg=
     local i=0
     declare -A arg_dict
-    while [[ $i -lt $num_of_dicts ]]; do
-        eval "arg_dict=(${list_args_dicts[$i]})"
+    while [[ $i -lt $_NUM_OF_DICTS ]]; do
+        eval "arg_dict=(${_LIST_ARGS_DICTS[$i]})"
         if [[ ${arg_dict[name]} = "bargs" ]]; then
             echo -e "\nUsage: ${arg_dict[description]}\n"
+        elif [[ ${arg_dict[type]} = "group" ]]; then
+            : # group do nothing
         elif [[ -n ${arg_dict[name]} ]]; then
             usage_msg+="\n\t--${arg_dict[name]}~|~-${arg_dict[short]}"
             if [[ -n ${arg_dict[flag]} ]]; then
@@ -95,16 +102,24 @@ clean_chars(){
 }
 
 
-check_bargs_vars(){
-    bargs_vars_path=$(dirname "${BASH_SOURCE[0]}")/bargs_vars
-    [[ ! -f $bargs_vars_path ]] && error_msg "Make sure bargs_vars is in the same folder as bargs.sh" no_usage
+check_bargs_vars_path(){
+    local bargs_vars_path
+    if [[ -n "$BARGS_VARS_PATH" && -f "$BARGS_VARS_PATH" ]]; then
+        _BARGS_VARS_PATH="$BARGS_VARS_PATH"
+    elif [[ -z "$BARGS_VARS_PATH" || ! -f "$BARGS_VARS_PATH" ]]; then
+        bargs_vars_path=$(dirname "${BASH_SOURCE[0]}")/bargs_vars
+        [[ ! -f $bargs_vars_path ]] && error_msg "Make sure bargs_vars is in the same folder as bargs.sh\n\tAnother option - export BARGS_VARS_PATH=\"\${PWD}/path/to/my_bargs_vars\"" no_usage    
+        _BARGS_VARS_PATH="$bargs_vars_path"
+    else
+        error_msg "Invalid path to bargs_vars: $BARGS_VARS_PATH"
+    fi
 }
 
 
 read_bargs_vars(){
     # Reads the file, saving each arg as one string in the string ${args}
-    # The arguments are separated with "~"    
-    check_bargs_vars
+    # The arguments are separated with "~" 
+    check_bargs_vars_path
     local delimiter="---"
     local arg_name
     local arg_value
@@ -120,23 +135,23 @@ read_bargs_vars(){
                 str="${str} [${arg_name}]=\"${arg_value}\""
 
         elif [[ $line = "$delimiter" ]]; then
-            num_of_args=$((num_of_args+1))
-            [[ -n $str ]] && args="$args~$str"
+            _NUM_OF_ARGS=$((_NUM_OF_ARGS+1))
+            [[ -n $str ]] && _ARGS="$_ARGS~$str"
             unset str
         fi        
-    done < "$bargs_vars_path"
+    done < "$_BARGS_VARS_PATH"
 }
 
 
 args_to_list_dicts(){
-    # args to list of dictionaries (associative arrays)
+    # _ARGS to list of dictionaries (associative arrays)
     local cut_num=1
     local arg=
-    while [[ $cut_num -le $((num_of_args+1)) ]]; do
-        arg=$(echo "${args[@]}" | cut -d "~" -f $cut_num)
+    while [[ $cut_num -le $((_NUM_OF_ARGS+1)) ]]; do
+        arg=$(echo "${_ARGS[@]}" | cut -d "~" -f $cut_num)
         if [[ ${#arg} -gt 0 ]]; then
-            list_args_dicts[$num_of_dicts]=$arg
-            num_of_dicts=$((num_of_dicts+1))
+            _LIST_ARGS_DICTS[$_NUM_OF_DICTS]=$arg
+            _NUM_OF_DICTS=$((_NUM_OF_DICTS+1))
         fi
         cut_num=$((cut_num+1))
     done
@@ -148,40 +163,53 @@ set_args_to_vars(){
     declare -A arg_dict
     local i
     local found
+    local definition
+    local contains_equal
+    local value
     while [[ -n $1 ]]; do
         i=0
         found=
-        while [[ $i -lt $num_of_dicts ]]; do
-            eval "arg_dict=(${list_args_dicts[$i]})"
-            case "$1" in
+        while [[ $i -lt $_NUM_OF_DICTS ]]; do
+            eval "arg_dict=(${_LIST_ARGS_DICTS[$i]})"
+            contains_equal=$(echo "$1" | grep "^[\-|\-\-]*\w*=")
+            if [[ -n $contains_equal ]]; then
+                definition=${1%=*} # "--definition=value"
+            else
+                definition=$1 # "--definition value"
+            fi
+
+            case "$definition" in
                 -h | --help )
                     usage
                     export DEBUG=0
                     exit 0
                 ;;
                 -"${arg_dict[short]}" | --"${arg_dict[name]}" )
-                    if [[ -z ${arg_dict[flag]} ]]; then
+                    if [[ -n $contains_equal ]]; then
+                        value=${1#*=}
+                    elif [[ -z ${arg_dict[flag]} ]]; then
                         shift
+                        value=$1
                     fi
 
-                    if [[ -z $1 && -n ${arg_dict[allow_env_var]} ]]; then
+                    if [[ -z $value && -n ${arg_dict[allow_env_var]} ]]; then
                         declare -n env_var_value=${arg_dict[name]^^}
                         export_env_var "${arg_dict[name]}" "$env_var_value"
-                    elif [[ -z $1 && -z ${arg_dict[default]} ]]; then
+                    elif [[ -z $value && -z ${arg_dict[default]} ]]; then
                         # arg is empty and default is empty
                         error_msg "Empty argument \"${arg_dict[name]}\""
-                    elif [[ -z $1 && -n ${arg_dict[default]} ]]; then
+                    elif [[ -z $value && -n ${arg_dict[default]} ]]; then
                         # arg is empty and default is not empty
                         export_env_var "${arg_dict[name]}" "${arg_dict[default]}"
                         found=${arg_dict[name]}
-                    elif [[ -n $1 ]]; then
+                    elif [[ -n $value ]]; then
                         # arg is not empty
                         if [[ -n ${arg_dict[flag]} ]]; then
                         # it's a flag
                             export_env_var "${arg_dict[name]}" true
                         else
                         # not a flag, regular argument
-                            export_env_var "${arg_dict[name]}" "$1"
+                            export_env_var "${arg_dict[name]}" "$value"
                         fi
                         found=${arg_dict[name]}
                     fi
@@ -189,9 +217,7 @@ set_args_to_vars(){
             esac
             i=$((i+1))
         done
-        if [[ -z $found ]]; then
-            error_msg "Unknown argument \"$1\""
-        fi
+        [[ -z $found ]] && error_msg "Unknown argument \"$definition\""
         shift
     done
 }
@@ -207,9 +233,9 @@ export_args_validation(){
     local confirm_value
     local valid
     local i=0
-    while [[ $i -lt $num_of_dicts ]]; do
-        eval "arg_dict=(${list_args_dicts[$i]})"
-        result=$(printenv | grep "${arg_dict[name]}" | cut -f2 -d "=")
+    while [[ $i -lt $_NUM_OF_DICTS ]]; do
+        eval "arg_dict=(${_LIST_ARGS_DICTS[$i]})"
+        result=$(printenv | grep "^${arg_dict[name]}=" | cut -f2 -d "=")
         if [[ -z $result ]]; then
             default=${arg_dict[default]}
             if [[ -n ${arg_dict[allow_env_var]} ]]; then
@@ -227,6 +253,7 @@ export_args_validation(){
                 hidden=
                 [[ -n ${arg_dict[hidden]} ]] && hidden=s
                 prompt_value=
+                trap 'trap - INT; kill -s HUP -- -$$' INT
                 while :; do
                     echo -n "${arg_dict[name]^^}: "
                     read -re${hidden} prompt_value
@@ -249,7 +276,7 @@ export_args_validation(){
                     fi
                 done
                 export_env_var "${arg_dict[name]}" "${prompt_value}"
-            elif [[ -z $default ]]; then
+            elif [[ -z $default && ${arg_dict[type]} != "group" ]]; then
                 error_msg "Required argument: ${arg_dict[name]}"
             fi
         elif [[ -n $result ]]; then
@@ -263,7 +290,6 @@ export_args_validation(){
         i=$((i+1))
     done
 }
-
 
 ### Main
 read_bargs_vars
