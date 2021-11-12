@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-set -e
-set -o pipefail
 
 ### Requirements
 ### ----------------------------------------
@@ -31,13 +29,15 @@ support_drone(){
     rm -f .replacer_env_vars
 }
 
-support_drone
-
 
 ### Parsing command-line arguments
 #shellcheck disable=SC1091
-source "/code/bargs.sh" "$@"
+source "bargs.sh" "$@"
 
+set -e
+set -o pipefail
+
+support_drone
 
 ### Functions
 msg_error(){
@@ -67,7 +67,7 @@ get_src_file_stream(){
     if [[ -f "$src_file_path" ]]; then
         cat "$src_file_path"
     else
-        error_msg "Source file ${src_file_path} does not exist."
+        msg_error "Source file ${src_file_path} does not exist."
     fi
 }
 
@@ -80,18 +80,19 @@ check_dst_file(){
     dst_file_path="$1"
     start_value="$2"
     end_value="$3"
-    
+    msg_log "Checking destination file - ${dst_file_path} ..."
     if [[ -f "$dst_file_path" ]]; then
         dst_file_stream=$(cat "$dst_file_path")
         if ! has_substring "$dst_file_stream" "$start_value"; then
-            error_msg "Destination file ${dst_file_path} does not contain ${start_value}"
+            msg_error "Destination file ${dst_file_path} does not contain ${start_value}"
         fi
         if ! has_substring "$dst_file_stream" "$end_value"; then
-            error_msg "Destination file ${dst_file_path} does not contain ${end_value}"
+            msg_error "Destination file ${dst_file_path} does not contain ${end_value}"
         fi
     else
-        error_msg "${dst_file_path} does not exist."
-    fi    
+        msg_error "${dst_file_path} does not exist."
+    fi
+    msg_log "Valid destination file - ${dst_file_path}"
 }
 
 
@@ -165,7 +166,6 @@ _SRC_FILE_PATH="${_ROOTDIR}/${SRC_FILE_PATH}"
 _SRC_FILE_STREAM="$(get_src_file_stream "$_SRC_FILE_PATH")"
 #shellcheck disable=SC2153
 _DST_FILE_PATH="${_ROOTDIR}/${DST_FILE_PATH}"
-_DST_FILE_STREAM="$(get_dst_file_stream "$_DST_FILE_PATH")"
 _START_VALUE="${START_VALUE:-"<!-- replacer_start -->"}"
 _END_VALUE="${END_VALUE:-"<!-- replacer_end -->"}"
 _GIT_SKIP_COMMIT="${GIT_SKIP_COMMIT:-"false"}"
@@ -180,12 +180,18 @@ _CREATE_BACKUP="${CREATE_BACKUP:-"true"}"
 msg_log "Start update ..."
 check_dst_file "$_DST_FILE_PATH" "$_START_VALUE" "$_END_VALUE"
 update_dst_file "$_START_VALUE" "$_END_VALUE" "$_SRC_FILE_STREAM" "$_DST_FILE_PATH" "$_CREATE_BACKUP"
-git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
 
+
+if [[ "$_GIT_SKIP_COMMIT" = "true" && "$_GIT_SKIP_PUSH" = "true" ]]; then
+    msg_log "Skipped git commands"
+    exit 0
+fi
+
+# Git
+git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
 if [[ "$_GIT_SKIP_COMMIT" != "false" ]]; then
     git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG" 
 fi
-
 if [[ "$_GIT_SKIP_PUSH" != "false" ]]; then
     git_push "$_GIT_SKIP_PUSH"
 fi

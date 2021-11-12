@@ -8,6 +8,14 @@ on:
       - ".drone.yml"
 
 jobs:
+  test-docker:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test In Docker
+        run: |
+          ./tests/test.sh
+
   update-readme:
     runs-on: ubuntu-20.04
     steps:
