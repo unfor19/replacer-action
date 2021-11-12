@@ -12,9 +12,44 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
+        with:
+          install: true
+      - name: Prepare
+        id: prep
+        run: |
+          IMAGE="unfor19/replacer-action"
+          TAG=$(echo $GITHUB_SHA | head -c7)
+          echo ::set-output name=tagged_image::${IMAGE}:${TAG}
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Build Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          push: false
+          load: true
+          tags: ${{ steps.prep.outputs.tagged_image }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
       - name: Test In Docker
+        env:
+          DOCKER_TAG: ${{ steps.prep.outputs.tagged_image }}
+          DOCKER_BUILD: "false"
         run: |
           ./tests/test.sh
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   update-readme:
     runs-on: ubuntu-20.04

@@ -23,7 +23,7 @@ _DOCKER_FOLDER="${DOCKER_FOLDER:-"/app"}"
 _DOCKER_SRC_PATH="${_SRC_FILE_PATH}"
 _DOCKER_DST_PATH="${_DST_FILE_PATH}"
 _DOCKER_EXPECTED_PATH="${_EXPECTED_FILE_PATH}"
-_DOCKER_TAG="${DOCKER_TAG:-"unfor19/replacer-test:latest"}"
+_DOCKER_TAG="${DOCKER_TAG:-"unfor19/replacer-action"}"
 _DOCKER_BUILD="${DOCKER_BUILD:-"true"}"
 
 if [[ "$_DOCKER_BUILD" = "true" ]]; then
