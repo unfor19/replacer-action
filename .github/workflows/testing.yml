@@ -28,6 +28,7 @@ jobs:
 
   test-docker:
     runs-on: ubuntu-20.04
+    name: Test Docker
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
@@ -71,6 +72,7 @@ jobs:
 
   update-readme:
     runs-on: ubuntu-20.04
+    name: Update README.md
     steps:
       - uses: actions/checkout@v2
       - name: Prepare source file
@@ -96,6 +98,7 @@ jobs:
 
   dry-run:
     runs-on: ubuntu-20.04
+    name: Dry Run
     steps:
       - uses: actions/checkout@v2
       - name: Prepare source file
