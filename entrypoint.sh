@@ -197,13 +197,13 @@ fi
 # Git
 msg_log "Configuring git ..."
 git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
-if [[ "$_GIT_SKIP_COMMIT" != "false" ]]; then
+if [[ "$_GIT_SKIP_COMMIT" = "false" ]]; then
     msg_log "Git commit ..."
     git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG"
 else
     msg_log "Skipped git commit"
 fi
-if [[ "$_GIT_SKIP_PUSH" != "false" ]]; then
+if [[ "$_GIT_SKIP_PUSH" = "false" ]]; then
     msg_log "Git push ..."
     git_push
 else
