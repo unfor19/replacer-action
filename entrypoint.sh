@@ -29,12 +29,15 @@ support_drone(){
     rm -f .replacer_env_vars
 }
 
-### Check PWD contents
-ls -lh
 
 ### Parsing command-line arguments
-#shellcheck disable=SC1090
-source "${PWD}/$(dirname "${BASH_SOURCE[0]}")/bargs.sh" "$@"
+if [[ "$GITHUB_ACTION" ]]; then
+    #shellcheck disable=SC1091
+    source "/code/bargs.sh" "$@"
+else
+    #shellcheck disable=SC1090
+    source "${PWD}/$(dirname "${BASH_SOURCE[0]}")/bargs.sh" "$@"
+fi
 
 set -e
 set -o pipefail
