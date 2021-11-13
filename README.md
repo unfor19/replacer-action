@@ -15,7 +15,11 @@ Tested in [unfor19/replacer-action-test](https://github.com/unfor19/replacer-act
 ```html
 <!-- replacer_start -->
 
-<div>User name will appear here instead</div>
+```
+---
+I'm here!
+---
+```
 
 <!-- replacer_end -->
 ```
