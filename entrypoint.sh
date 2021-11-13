@@ -190,24 +190,24 @@ update_dst_file "$_START_VALUE" "$_END_VALUE" "$_SRC_FILE_STREAM" "$_DST_FILE_PA
 
 if [[ "$_GIT_SKIP_COMMIT" = "true" && "$_GIT_SKIP_PUSH" = "true" ]]; then
     msg_log "Skipped git commands"
-    exit 0
-fi
-
-
-# Git
-msg_log "Configuring git ..."
-git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
-if [[ "$_GIT_SKIP_COMMIT" = "false" ]]; then
-    msg_log "Git commit ..."
-    git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG"
 else
-    msg_log "Skipped git commit"
-fi
-if [[ "$_GIT_SKIP_PUSH" = "false" && "$_GIT_SKIP_COMMIT" = "false" ]]; then
-    msg_log "Git push ..."
-    git_push
-else
-    msg_log "Skipped git push"
+    # Git
+    msg_log "Configuring git ..."
+    git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
+    if [[ "$_GIT_SKIP_COMMIT" = "false" ]]; then
+        msg_log "Git commit ..."
+        git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG"
+
+        if [[ "$_GIT_SKIP_PUSH" = "false" ]]; then
+            msg_log "Git push ..."
+            git_push
+        else 
+            msg_log "Skipped git push"
+        fi
+    else
+        msg_log "Skipped git commit"
+        msg_log "Skipped git push"
+    fi
 fi
 
 msg_log "Completed successfully"
