@@ -15,11 +15,7 @@ Tested in [unfor19/replacer-action-test](https://github.com/unfor19/replacer-act
 ```html
 <!-- replacer_start -->
 
-```
----
-I'm here!
----
-```
+<div>User name will appear here instead</div>
 
 <!-- replacer_end -->
 ```
@@ -65,6 +61,23 @@ jobs:
           git-skip-push: false
           create-backup: true
 ```
+
+### Help Menu
+
+```bash
+./entrypoint.sh --help
+```
+
+```bash
+<!-- help_menu_start -->
+
+Help menu will be injected here
+
+<!-- help_menu_end -->
+```
+
+_NOTE_: the code block above :point_up: was automatically generated with replacer! See the raw version of this [README.md](https://raw.githubusercontent.com/unfor19/replacer-action/master/README.md) file
+
 
 ### drone.io
 

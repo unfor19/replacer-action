@@ -71,30 +71,25 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   update-readme:
+    # Eat your own dog food
+    # Using this action to update its own README.md with the CLI's help menu
     runs-on: ubuntu-20.04
     name: Update README.md
+    env:
+      SRC_FILE_PATH: .help_menu
+      DST_FILE_PATH: README.md
     steps:
       - uses: actions/checkout@v2
       - name: Prepare source file
         run: |
-          echo "<div>$(whoami)</div>" > test_results.log
+          ./entrypoint.sh --help > ${{ env.SRC_FILE_PATH }}
       - name: Update README.md file
         uses: ./ # Uses an action in the root directory
         with:
-          src-file-path: "test_results.log"
-          dst-file-path: "README.test.md"
-          start-value: "<!-- replacer_start -->"
-          end-value: "<!-- replacer_end -->"
-      - name: Prepare original source file
-        run: |
-          echo "<div>User name will appear here instead</div>" > "test_results.log"
-      - name: Revert README.test.md file
-        uses: ./ # Uses an action in the root directory
-        with:
-          src-file-path: "test_results.log"
-          dst-file-path: "README.test.md"
-          start-value: "<!-- replacer_start -->"
-          end-value: "<!-- replacer_end -->"
+          src-file-path: ${{ env.SRC_FILE_PATH }}
+          dst-file-path: ${{ env.DST_FILE_PATH }}
+          start-value: "<!-- help_menu_start -->"
+          end-value: "<!-- help_menu_end -->"
 
   dry-run:
     runs-on: ubuntu-20.04
