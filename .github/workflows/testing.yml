@@ -29,7 +29,7 @@ jobs:
         run: |
           curl --fail -X POST -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${GH_TOKEN}" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${$GITHUB_SHA}" \
+            "https://api.github.com/repos/${{ env.GITHUB_REPOSITORY }}/statuses/${{ env.GITHUB_SHA }}" \
             -d '{"state":"pending", "description": "Status of "'${GH_REPO}'", "target_url": "https://github.com/'${GH_OWNER}/${GH_REPO}'/actions/workflows/'${GH_WORKFLOW}'"}'
 
   test-docker:
