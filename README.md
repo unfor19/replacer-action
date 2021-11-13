@@ -95,6 +95,33 @@ steps:
 
 </details>
 
+## Contributing
+
+Report issues/questions/feature requests on the [Issues](https://github.com/unfor19/replacer-action/issues) section.
+
+Pull requests are welcome! These are the steps:
+
+1. Fork this repo
+1. Create your feature branch from master (`git checkout -b my-new-feature`)
+1. Build development image
+   ```bash
+   docker build -t "replacer-action:dev" --target "dev" .
+   ```
+1. Run development image
+   ```bash
+   docker run --rm -it -v "$PWD":/code "replacer-action:dev"
+   ```
+1. Add the code of your new feature
+1. Run tests on your code, feel free to add more tests
+   ```bash
+   # in container
+   ./tests/test.sh
+   ... # All good? Move on to the next step
+   ```
+1. Commit your remarkable changes (`git commit -am 'Added new feature'`)
+1. Push to the branch (`git push --set-up-stream origin my-new-feature`)
+1. Create a new Pull Request and provide details about your changes
+
 ## Authors
 
 Created and maintained by [Meir Gabay](https://github.com/unfor19)
