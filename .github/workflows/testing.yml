@@ -24,7 +24,7 @@ jobs:
           curl --fail -X POST -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             "https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/actions/workflows/${GH_WORKFLOW}/dispatches" \
-            -d '{"ref":"'"${GH_REF}"'", "inputs": { "src_repository": "'${GITHUB_REPOSITORY}'", "src_workflow_name": "'"${GITHUB_WORKFLOW}"'", "src_workflow_run_id": "'"${GITHUB_RUN_ID}"'" } }'
+            -d '{"ref":"'"${GH_REF}"'", "inputs": { "src_repository": "'${GITHUB_REPOSITORY}'", "src_workflow_name": "'"${GITHUB_WORKFLOW}"'", "src_sha": "'"${GITHUB_SHA}"'" } }'
       - name: Create Status Check
         run: |
           curl --fail -X POST -H "Accept: application/vnd.github.v3+json" \
