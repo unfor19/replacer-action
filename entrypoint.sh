@@ -137,8 +137,8 @@ git_config(){
     local git_user_email
     git_user_name="$1"
     git_user_email="$2"
-    git config --global user.name "$git_user_name"
-    git config --global user.email "$git_user_email"
+    git config user.name "$git_user_name"
+    git config user.email "$git_user_email"
 }
 
 
@@ -199,9 +199,15 @@ msg_log "Configuring git ..."
 git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
 if [[ "$_GIT_SKIP_COMMIT" != "false" ]]; then
     msg_log "Git commit ..."
-    git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG" 
+    git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG"
+else
+    msg_log "Skipped git commit"
 fi
 if [[ "$_GIT_SKIP_PUSH" != "false" ]]; then
     msg_log "Git push ..."
     git_push
+else
+    msg_log "Skipped git push"
 fi
+
+msg_log "Completed successfully"
