@@ -109,7 +109,7 @@ Pull requests are welcome! These are the steps:
    ```
 1. Run development image
    ```bash
-   docker run --rm -it -v "$PWD":/code "replacer-action:dev"
+   docker run --rm -it -v "$PWD":"/code" --workdir "/code" "replacer-action:dev"
    ```
 1. Add the code of your new feature
 1. Run tests on your code, feel free to add more tests
