@@ -96,7 +96,6 @@ Usage: bash entrypoint.sh --help
 	--git_skip_push    |  -gsp  [false]                        Skip Git push
 	--create_backup    |  -cb   [true]                         Create a backup file
 ```
-
 <!-- help_menu_end -->
 
 _NOTE_: the code block above :point_up: was automatically generated with replacer! See the raw version of this [README.md](https://raw.githubusercontent.com/unfor19/replacer-action/master/README.md) file
