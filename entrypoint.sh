@@ -142,21 +142,22 @@ git_config(){
 }
 
 
+git_diff(){
+    local diff_results     
+    diff_results="$(git diff)"
+    if [[ -n "$diff_results" ]]; then
+        echo "$diff_results"
+    else
+        echo "Nothing to commit"
+    fi
+}
+
+
 git_commit(){
     local dst_file_path
     local git_commit_msg
-    local diff_results     
-    dst_file_path="$1"
-    git_commit_msg="$2"
-
-    diff_results=$(git diff)
-    msg_log "Diff results:\n${diff_results}"
-    if [[ -n "$diff_results" ]]; then
-        git add "$dst_file_path"
-        git commit -m "$git_commit_msg"
-    else
-        msg_log "Nothing to commit"
-    fi
+    git add "$dst_file_path"
+    git commit -m "$git_commit_msg"
 }
 
 
@@ -194,7 +195,9 @@ else
     # Git
     msg_log "Configuring git ..."
     git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
-    if [[ "$_GIT_SKIP_COMMIT" = "false" ]]; then
+    if [[ "$(git_diff)" = "Nothing to commit" ]]; then
+        msg_log "Nothing to commit"
+    elif [[ "$_GIT_SKIP_COMMIT" = "false" ]]; then
         msg_log "Git commit ..."
         git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG"
 
