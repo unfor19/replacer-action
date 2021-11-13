@@ -203,7 +203,7 @@ if [[ "$_GIT_SKIP_COMMIT" = "false" ]]; then
 else
     msg_log "Skipped git commit"
 fi
-if [[ "$_GIT_SKIP_PUSH" = "false" ]]; then
+if [[ "$_GIT_SKIP_PUSH" = "false" && "$_GIT_SKIP_COMMIT" = "false" ]]; then
     msg_log "Git push ..."
     git_push
 else
