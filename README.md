@@ -1,8 +1,12 @@
 # replacer-action
 
 [![testing](https://github.com/unfor19/replacer-action/workflows/testing/badge.svg)](https://github.com/unfor19/replacer-action/actions?query=workflow%3Atesting)
+[![test-action](https://github.com/unfor19/replacer-action-test/workflows/test-action/badge.svg)](https://github.com/unfor19/replacer-action-test/actions?query=workflow%3Atest-action)
+
 
 Auto-update README.md file according to the source code.
+
+Tested in [unfor19/replacer-action-test](https://github.com/unfor19/replacer-action-test/actions?query=workflow%3Atest-action)
 
 ## Requirements
 
