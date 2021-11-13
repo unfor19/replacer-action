@@ -31,7 +31,7 @@ support_drone(){
 
 
 ### Parsing command-line arguments
-if [[ "$GITHUB_ACTION" ]]; then
+if [[ "$GITHUB_ACTION" = "true" || "$IS_DOCKER" = "true" ]]; then
     #shellcheck disable=SC1091
     source "/code/bargs.sh" "$@"
 else
