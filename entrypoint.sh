@@ -31,8 +31,8 @@ support_drone(){
 
 
 ### Parsing command-line arguments
-#shellcheck disable=SC1091
-source "bargs.sh" "$@"
+#shellcheck disable=SC1090
+source "${PWD}/$(dirname "${BASH_SOURCE[0]}")/bargs.sh" "$@"
 
 set -e
 set -o pipefail
