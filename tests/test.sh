@@ -26,26 +26,46 @@ _DOCKER_EXPECTED_PATH="${_EXPECTED_FILE_PATH}"
 _DOCKER_TAG="${DOCKER_TAG:-"unfor19/replacer-action"}"
 _DOCKER_BUILD="${DOCKER_BUILD:-"true"}"
 
+
 if [[ "$_DOCKER_BUILD" = "true" ]]; then
     docker build -t "$_DOCKER_TAG" .
 fi
 
 
 msg_log "Running app ..."
-docker run --rm --mount type=bind,source="$PWD",target="$_DOCKER_FOLDER" --workdir="$_DOCKER_FOLDER" \
-    "$_DOCKER_TAG" -sf "$_DOCKER_SRC_PATH" -df "$_DOCKER_DST_PATH" -gsc "true" -gsp "true"
+if [[ "$IS_DOCKER" = "true" ]]; then
+    ./entrypoint.sh -sf "$_SRC_FILE_PATH" -df "$_DST_FILE_PATH" -gsc "true" -gsp "true"
+else
+    docker run --rm --mount type=bind,source="$PWD",target="$_DOCKER_FOLDER" --workdir="$_DOCKER_FOLDER" \
+        "$_DOCKER_TAG" -sf "$_DOCKER_SRC_PATH" -df "$_DOCKER_DST_PATH" -gsc "true" -gsp "true"
+fi
+
 
 msg_log "Replacing break row char ..."
-docker run --rm --mount type=bind,source="$PWD",target="$_DOCKER_FOLDER" --workdir="$_DOCKER_FOLDER" \
-    --entrypoint="perl" "$_DOCKER_TAG" -p -i -e "s/\r//g" "$_DOCKER_DST_PATH"
+if [[ "$IS_DOCKER" = "true" ]]; then
+    perl -p -i -e "s/\r//g" "$_DST_FILE_PATH"
+else
+    docker run --rm --mount type=bind,source="$PWD",target="$_DOCKER_FOLDER" --workdir="$_DOCKER_FOLDER" \
+        --entrypoint="perl" "$_DOCKER_TAG" -p -i -e "s/\r//g" "$_DOCKER_DST_PATH"
+fi
+
 
 msg_log "Compare"
-if docker run --rm --mount type=bind,source="$PWD",target="$_DOCKER_FOLDER" --workdir="$_DOCKER_FOLDER" --entrypoint="cmp" \
-    "$_DOCKER_TAG" "$_DOCKER_DST_PATH" "$_DOCKER_EXPECTED_PATH" ; then
-    msg_log "Test passed"
+if [[ "$IS_DOCKER" = "true" ]]; then
+    if cmp "$_DST_FILE_PATH" "$_EXPECTED_FILE_PATH" ; then
+        msg_log "Test passed"
+    else
+        msg_log "Test failed"
+    fi
 else
-    msg_error "Test failed"
+    if docker run --rm --mount type=bind,source="$PWD",target="$_DOCKER_FOLDER" --workdir="$_DOCKER_FOLDER" \
+    --entrypoint="cmp" "$_DOCKER_TAG" "$_DOCKER_DST_PATH" "$_DOCKER_EXPECTED_PATH" ; then
+        msg_log "Test in Docker passed"
+    else
+        msg_error "Test in Docker failed"
+    fi
 fi
+
 
 git restore "$_DST_FILE_PATH"
 
