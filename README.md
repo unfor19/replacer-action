@@ -4,9 +4,20 @@
 [![test-action](https://github.com/unfor19/replacer-action-test/workflows/test-action/badge.svg)](https://github.com/unfor19/replacer-action-test/actions?query=workflow%3Atest-action)
 
 
-Auto-update README.md file according to the source code.
+Auto-update README.md file according to the source code. When to use this action?
+
+- **CLI Help Menu**: Inject the *help menu* of your CLI to the *README.md* file, see [Help Menu](#help-menu)
+- **Test Results**: Share test results in your *README.md* file, see [bargs test suite](https://github.com/unfor19/bargs#usage-output)
+- **API Response**: Keep your README.md up-to-date with the response of your APIs
 
 Tested in [unfor19/replacer-action-test](https://github.com/unfor19/replacer-action-test/actions?query=workflow%3Atest-action)
+
+## How It Works
+
+1. Uses [perl](https://marekbosman.com/site/perl-find-and-replace/) to manipulate the destination file - `README.md`
+2. Executes [git diff](https://git-scm.com/docs/git-diff) to check if there are any changes in `README.md`
+3. If there are no changes, exits successfully
+4. If there are changes, executes [git commit](https://git-scm.com/docs/git-commit) followed by [git push](https://git-scm.com/docs/git-push)
 
 ## Requirements
 
