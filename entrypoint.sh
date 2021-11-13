@@ -198,6 +198,8 @@ else
     if [[ "$(git_diff)" = "Nothing to commit" ]]; then
         msg_log "Nothing to commit"
     elif [[ "$_GIT_SKIP_COMMIT" = "false" ]]; then
+        msg_log "Git diff:"
+        git_diff
         msg_log "Git commit ..."
         git_commit "$_DST_FILE_PATH" "$_GIT_COMMIT_MSG"
 
