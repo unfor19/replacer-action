@@ -68,25 +68,13 @@ jobs:
 ./entrypoint.sh --help
 ```
 
-```bash
 <!-- help_menu_start -->
 
-
-Usage: bash entrypoint.sh --help
-
-	--src_file_path    |  -sf   [ENV_VAR]                      Relative path to source file that will be injected
-	--dst_file_path    |  -df   [README.md]                    Relative path to destination file
-	--start_value      |  -sv   [<!-- replacer_start -->]      From where to start
-	--end_value        |  -ev   [<!-- replacer_end -->]        Where to stop
-	--git_user_name    |  -gu   [replacer-action]              Actor user name
-	--git_user_email   |  -ge   [replacer-action.co.il]  Actor email address
-	--git_commit_msg   |  -gm   [Updated by GitHub Actions]    Git commit message
-	--git_skip_commit  |  -gsc  [false]                        Skip Git commit
-	--git_skip_push    |  -gsp  [false]                        Skip Git push
-	--create_backup    |  -cb   [true]                         Create a backup file
+```bash
+Help menu will be injected here
+```
 
 <!-- help_menu_end -->
-```
 
 _NOTE_: the code block above :point_up: was automatically generated with replacer! See the raw version of this [README.md](https://raw.githubusercontent.com/unfor19/replacer-action/master/README.md) file
 
