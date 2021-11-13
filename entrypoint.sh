@@ -156,6 +156,8 @@ git_diff(){
 git_commit(){
     local dst_file_path
     local git_commit_msg
+    dst_file_path="$1"
+    git_commit_msg="$2"
     git add "$dst_file_path"
     git commit -m "$git_commit_msg"
 }
