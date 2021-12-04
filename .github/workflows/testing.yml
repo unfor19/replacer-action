@@ -17,13 +17,13 @@ jobs:
       - name: Workflow Dispatch Status
       uses: unfor19/hero-action@master
       with:
-          action: "dispatch-status"
-          src_repository: ${{ github.repository }}
-          src_workflow_name: "testing.yml"
-          src_sha: ${{ github.sha }}
-          target_repository: ${{ github.repository }}-test
-          target_workflow_name: "test-action.yml"
-          gh_token: ${{ secrets.GH_TOKEN }} # scope: repo + workflow
+        action: "dispatch-status"
+        src_repository: ${{ github.repository }}
+        src_workflow_name: "testing.yml"
+        src_sha: ${{ github.sha }}
+        target_repository: ${{ github.repository }}-test
+        target_workflow_name: "test-action.yml"
+        gh_token: ${{ secrets.GH_TOKEN }} # scope: repo + workflow
   test-docker:
     runs-on: ubuntu-20.04
     name: Test Docker
