@@ -11,7 +11,7 @@ on:
 jobs:
   dispatch_test_action:
     name: Dispatch Test Action
-      runs-on: ubuntu-20.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Workflow Dispatch Status
