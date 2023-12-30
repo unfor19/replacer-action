@@ -196,6 +196,7 @@ if [[ "$_GIT_SKIP_COMMIT" = "true" && "$_GIT_SKIP_PUSH" = "true" ]]; then
 else
     # Git
     msg_log "Configuring git ..."
+    git config --global --add safe.directory "${_ROOTDIR}"
     git_config "$_GIT_USER_NAME" "$_GIT_USER_EMAIL"
     if [[ "$(git_diff)" = "Nothing to commit" ]]; then
         msg_log "Nothing to commit"
